@@ -45,7 +45,7 @@ function drawTitle(c) {
   const bounce = Math.abs(Math.sin(game.t * 3)) * 8;
   drawLinusSprite(c, Math.floor(game.t * 1.5) % 4 === 3 ? 'inhaleMega' : 'cheer', cx - 20, VIEW_H - 38 - bounce, 1, { scale: 1.9 });
   c.save(); c.translate(cx, 52); c.rotate(Math.sin(game.t * 2) * 0.03);
-  txt(c, 'LINUS', 0, 0, 48, '#ffd23a', 'center', 9);
+  txt(c, HERO.name, 0, 0, 48, '#ffd23a', 'center', 9);
   txt(c, 'DINOSAUR DEVOURER', 0, 40, 22, '#ff6a4a', 'center', 6);
   c.restore();
   if (Math.floor(game.t * 2) % 2 === 0) txt(c, IS_TOUCH ? 'TAP TO START' : 'CLICK OR PRESS ENTER', cx, VIEW_H - 18, 14, '#fff');
@@ -153,7 +153,7 @@ function drawBossClear(c) {
 function drawEnding(c) {
   bgGradient(c, '#ff9a6a', '#3a2d6a');
   for (let i = 0; i < 6; i++) { const a = game.t * 0.5 + i; drawStar(c, VIEW_W / 2 + Math.cos(a) * 220, 120 + Math.sin(a * 1.3) * 80, 10, '#ffe14a', a); }
-  txt(c, 'YOU DID IT, LINUS!', VIEW_W / 2, 40, 28, '#ffd23a', 'center', 7);
+  txt(c, `YOU DID IT, ${HERO.name}!`, VIEW_W / 2, 40, 28, '#ffd23a', 'center', 7);
   txt(c, 'All six worlds are safe from the giant dinosaurs!', VIEW_W / 2, 72, 12, '#fff');
   drawLinusSprite(c, 'cheer', VIEW_W / 2, VIEW_H - 50 - Math.abs(Math.sin(game.t * 4)) * 10, 1, { scale: 2.2 });
   drawDino(c, VIEW_W / 2 - 150, VIEW_H - 50, EN.indo, 1, { t: game.t, walk: 0, angry: false }, 1.6);
@@ -166,7 +166,7 @@ function drawGameOver(c) {
   bgGradient(c, '#2a1d40', '#100820');
   txt(c, 'GAME OVER', VIEW_W / 2, 60, 34, '#ff6a6a', 'center', 7);
   drawLinusSprite(c, 'hurt', VIEW_W / 2, 200, 1, { scale: 1.5 });
-  txt(c, 'Don\'t give up! Linus gets 5 more lives.', VIEW_W / 2, 100, 12, '#fff');
+  txt(c, `Don't give up! ${HERO.nice} gets 5 more lives.`, VIEW_W / 2, 100, 12, '#fff');
   ui.button(c, VIEW_W / 2 - 150, VIEW_H - 64, 140, 36, 'TRY AGAIN', '#3cb85a', () => { SFX.click(); SAVE.lives = 5; persist(); startStage(game.wi, game.stash ? game.stash.si : game.si); }, 14);
   ui.button(c, VIEW_W / 2 + 10, VIEW_H - 64, 140, 36, 'WORLD MAP', '#7a6ad8', () => { SFX.click(); SAVE.lives = 5; persist(); toMap(); }, 14);
   ui.def = () => { SAVE.lives = 5; startStage(game.wi, game.si); };
@@ -175,7 +175,7 @@ const SHOP = [
   { k: 'hp', name: 'Extra Heart', desc: 'Start every stage with +1 heart', costs: [60, 120, 200] },
   { k: 'flt', name: 'Super Float', desc: 'Float longer in the air', costs: [50, 110] },
   { k: 'inh', name: 'Mega Lungs', desc: 'Inhale from farther away', costs: [70, 150] },
-  { k: 'life', name: 'Extra Life', desc: 'One more try for Linus', costs: [40] },
+  { k: 'life', name: 'Extra Life', desc: 'One more try for ' + HERO.nice, costs: [40] },
 ];
 function drawShop(c) {
   bgGradient(c, '#ffcf7a', '#e8803a');

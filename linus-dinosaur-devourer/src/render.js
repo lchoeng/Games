@@ -160,8 +160,9 @@ function drawProps(c) {
   }
 }
 function drawSignBubbles(c) {
-  for (const pr of props) {
-    if (pr.k !== 'sign' || Math.abs(P.x + P.w / 2 - pr.x) > 90 || Math.abs(P.y + P.h - pr.y) > 120) continue;
+  let best = null, bd = 1e9;
+  for (const pr of props) { if (pr.k !== 'sign') continue; const d = Math.abs(P.x + P.w / 2 - pr.x); if (d <= 90 && Math.abs(P.y + P.h - pr.y) <= 120 && d < bd) { bd = d; best = pr; } }
+  for (const pr of best ? [best] : []) {
     const lines = wrap(c, pr.text, 180, 11);
     const w = 196, h = lines.length * 14 + 12, x = clamp(pr.x - w / 2, cam.x + 6, cam.x + VIEW_W - w - 6), y = Math.max(cam.y + 34, Math.min(P.y, pr.y - 64) - 18 - h);
     rrect(c, x, y, w, h, 8, 'rgba(255,255,255,.95)', OUT, 2);
@@ -216,7 +217,7 @@ function drawItems(c) {
       case 'coin': drawCoin(c, x, y, 7, it.t); break;
       case 'star': c.save(); c.translate(x, y); c.rotate(Math.sin(it.t * 2) * 0.3); drawStar(c, 0, 0, 9, '#ffe14a'); c.restore(); break;
       case 'heart': drawHeart(c, x, y, 8 + Math.sin(it.t * 6) * 0.8); break;
-      case 'oneup': { c.save(); c.translate(x, y); c.beginPath(); ell(c, 0, 0, 13, 13); c.fillStyle = '#7aff7a'; c.fill(); c.lineWidth = 2; c.strokeStyle = OUT; c.stroke(); c.beginPath(); ell(c, 0, 0, 12, 12); c.clip(); const im = IMG.idle.im; c.drawImage(im, 0, 0, 92, 110, -12, -13, 24, 28.7); c.restore(); txt(c, '1UP', x, y + 18, 9, '#7aff7a'); break; }
+      case 'oneup': { c.save(); c.translate(x, y); c.beginPath(); ell(c, 0, 0, 13, 13); c.fillStyle = '#7aff7a'; c.fill(); c.lineWidth = 2; c.strokeStyle = OUT; c.stroke(); c.beginPath(); ell(c, 0, 0, 12, 12); c.clip(); const im = IMG.idle.im, fw = SPR.idle.w; c.drawImage(im, 0, 0, fw, fw * 1.2, -12, -13, 24, 28.8); c.restore(); txt(c, '1UP', x, y + 18, 9, '#7aff7a'); break; }
       case 'egg': drawEgg(c, x, y, 10, it.t); break;
       case 'golden': drawGolden(c, x, y + 14, 1, it.t); if (Math.random() < 0.15) part({ x: x + (Math.random() - 0.5) * 30, y: y + (Math.random() - 0.5) * 30, vx: 0, vy: -10, life: 0.5, col: '#fff6a0', size: 3, kind: 'star' }); break;
       case 'capsule': drawCapsule(c, x, y, 9, it.c, it.t); break;
@@ -331,7 +332,7 @@ function drawPlay() {
 // ---------- HUD ----------
 function linusHead(c, x, y, r) {
   c.save(); c.beginPath(); ell(c, x, y, r, r); c.fillStyle = '#ffe9a0'; c.fill(); c.lineWidth = 1.5; c.strokeStyle = OUT; c.stroke(); c.clip();
-  c.drawImage(IMG.idle.im, 0, 0, 92, 112, x - r, y - r, r * 2, r * 2 * 112 / 92); c.restore();
+  const f = SPR.idle; c.drawImage(IMG.idle.im, 0, 0, f.w, f.w * 1.22, x - r, y - r, r * 2, r * 2 * 1.22); c.restore();
 }
 function drawHUD(c) {
   const L = SAFE.l + 10, top = SAFE.t + 8;

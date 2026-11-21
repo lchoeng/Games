@@ -44,7 +44,7 @@ Each world has 4 stages and a boss stage, plus a secret bonus room behind a door
 The game is plain JavaScript with no dependencies.
 
 - `src/` — game code (core, audio, art, levels, gameplay, bosses, rendering, menus)
-- `sprites/` — Linus and dinosaur cutouts, embedded as base64 images
+- `sprites/` — Linus and dinosaur cutouts, plus the hero name and save slot in `sprites.js`, embedded as base64 images
 - `shell.html` — the HTML page the script goes into
 
 After changing anything, rebuild `index.html` with:

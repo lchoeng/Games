@@ -42,16 +42,15 @@ const overlap = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h 
 // ---------- sprites ----------
 const IMG = {};
 let imgsLoaded = 0, imgsTotal = 0;
+const imgByData = new Map();
 for (const k in SPR) {
-  imgsTotal++;
-  const im = new Image();
-  im.onload = () => imgsLoaded++;
-  im.src = SPR[k].d;
+  let im = imgByData.get(SPR[k].d);
+  if (!im) { imgsTotal++; im = new Image(); im.onload = () => imgsLoaded++; im.src = SPR[k].d; imgByData.set(SPR[k].d, im); }
   IMG[k] = { im, w: SPR[k].w, h: SPR[k].h };
 }
 
 // ---------- save ----------
-const SAVE_KEY = 'linus-dino-devourer-v1';
+const SAVE_KEY = HERO.save;
 function freshSave() {
   return { unlocked: 1, done: {}, golden: {}, eggs: 0, swallowed: 0, defeated: 0, powers: {}, coins: 0, score: 0,
     up: { hp: 0, flt: 0, inh: 0 }, lives: 5, bonus: {}, muted: false };

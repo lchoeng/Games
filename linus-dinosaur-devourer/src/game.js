@@ -5,7 +5,7 @@ let enemies = [], projs = [], items = [], parts = [], movers = [], hazards = [],
 let boss = null;
 const cam = { x: 0, y: 0, shake: 0 };
 const crumbles = new Map();
-const LINUS_H = 64, LK = LINUS_H / 207;
+const LINUS_H = 64 * (HERO.scale || 1), LK = LINUS_H / 207;
 
 function tileAt(tx, ty) { const L = game.L; if (tx < 0 || tx >= L.w) return TL.G; if (ty < 0 || ty >= L.h) return 0; return L.t[ty * L.w + tx]; }
 function setTile(tx, ty, v) { const L = game.L; if (tx >= 0 && tx < L.w && ty >= 0 && ty < L.h) L.t[ty * L.w + tx] = v; }
